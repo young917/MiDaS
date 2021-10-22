@@ -17,7 +17,8 @@ dataset = ["email-Enron-full", "email-Eu-full",
             "contact-high-school", "contact-primary-school",
             "NDC-classes-full", "NDC-substances-full",
             "tags-ask-ubuntu", "tags-math-sx",
-            "threads-ask-ubuntu", "coauth-MAG-History-full", "coauth-MAG-Geology-full", "threads-math-sx", "coauth-DBLP-full"]
+            "threads-ask-ubuntu", "coauth-MAG-History-full", "coauth-MAG-Geology-full"]
+            # "threads-math-sx","coauth-DBLP-full"]
 repeat_time = 3
 
 def get_subdirectories(ls, dataname=None):
@@ -308,6 +309,7 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
     for dataname in _dataset:
         answer_dir = "../results/answer_dist/" + dataname + "/"
         answer_dist = get_dist_from_dir(answer_dir)
+
         if len(inputpath) > 0:
             dir_list_all = get_subdirectories([inputpath], dataname)
         else:
@@ -346,10 +348,8 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
                     if len(tmp) == 2:
                         ename, result = line[:-1].split(" : ")
                         if ename in target_eval:
-                            if "grid_search" in dir_path and ename == "Time":
-                                pass
-                            else:
-                                evaluation_result[ename] = float(result)
+                            evaluation_result[ename] = float(result)
+                """
                 if "grid_search" in dir_path:
                     agg_time = 0
                     tmp = dir_path.split("/")
@@ -377,12 +377,14 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
                                         if ename == "Time":
                                             agg_time += float(result)
                     evaluation_result["Time"] = agg_time
+                """
 
             # Every time, write new entire_evaluation file!
             with open(dir_path + "entire_evaluation.txt", "w") as f:
                 for evalname in evaluation_result.keys():
                     f.write(evalname + " : " + str(evaluation_result[evalname]) + "\n")
 
+            assert "intersect" in evaluation_result, dir_path
             for evalname in evallist:
                 if evalname not in evaluation_result:
                     if evalname in ["density", "overlapness", "global_cc", "effective_diameter"]:
@@ -497,6 +499,7 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
     for d in tqdm(dir_list_all):
         eval_dict = defaultdict(list)
         arg_dict = {}
+        min_dict = {}
         for i in range(1, repeat_time + 1):
             dirname = d + str(i)
             result = get_evaluation(dirname)
@@ -506,6 +509,12 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
             for ename in evallist:
                 assert ename in result
             for ename in result.keys():
+                if ename not in arg_dict:
+                    arg_dict[ename] = i
+                    min_dict[ename] = abs(result[ename])
+                elif min_dict[ename] > abs(result[ename]):
+                    arg_dict[ename] = i
+                    min_dict[ename] = abs(result[ename])
                 eval_dict[ename].append(result[ename])
         if len(eval_dict) == 0:
             print("No ", dirname)
@@ -516,8 +525,22 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
             continue
         # print(eval_dict.keys())
         for ename in evallist:
-            arg_dict[ename] = np.argmin( [abs(e) for e in eval_dict[ename]] ) + 1
+            # if ename == "Time" and "search" in d:
+            #     # read "time.txt":
+            #     time_path = d + "time.txt"
+            #     assert os.path.isfile(time_path)
+            #     agg_time = 0
+            #     with open(time_path) as f:
+            #         agg_time = float(f.readline())
+            #     assert agg_time != 0
+            #     eval_dict["Time"] = agg_time
+            #     arg_dict["Time"] = 0
+            # else:                
+            #     arg_dict[ename] = np.argmin( [abs(e) for e in eval_dict[ename]] ) + 1
+            #     eval_dict[ename] = np.mean(eval_dict[ename])
+            #arg_dict[ename] = np.argmin( [abs(e) for e in eval_dict[ename]] ) + 1
             eval_dict[ename] = np.mean(eval_dict[ename])
+
 
         with open(d + "agg_entire_evaluation.txt", "w") as r:
             for ename in eval_dict.keys():
@@ -528,10 +551,12 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
                 r.write(ename + " : " + str(arg_dict[ename]) + "\n")
 
 if __name__ == "__main__":
-    algorithmlist = ["es_grid_search", "es_skewness_search", "es_global_deg_avg_grid_search", "es_global_deg_max_grid_search",
+    algorithmlist = ["es_grid_search", "es_skewness_search", 
+                    "es_grid_search_ext", "es_skewness_search_ext",
+                    "es_global_deg_avg_grid_search", "es_global_deg_max_grid_search",
                     "ns_grid_search", "ns/global_deg_1.0000", "es/global_deg_min_0.0000", "ns/global_deg_0.0000",
                     "tihs", "rw/rw_c_1", "ff/ff_c_0.51_0.20",
-                    "mh/add", "mh/exchange_degree", "mh/remove",
+                    "mh/add_degree", "mh/exchange_degree", "mh/remove_degree",
                     "mh/add_avg", "mh/exchange_avg", "mh/remove_avg"]
                 # "greedy/exchange/degree", "greedy/exchange/avg", 
     portionlist = ["0.30", "0.10", "0.20", "0.40", "0.50"]
