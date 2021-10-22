@@ -1,0 +1,2 @@
+Dimension : 1005
+Sum of Squares : 89408.99999999999

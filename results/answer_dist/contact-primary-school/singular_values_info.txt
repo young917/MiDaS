@@ -1,0 +1,2 @@
+Dimension : 242
+Sum of Squares : 30729.000000000004
