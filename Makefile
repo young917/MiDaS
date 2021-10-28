@@ -1,6 +1,3 @@
-#  Written based on the original by Hilton Lipschitz on 2015-09-01.
-# Makefile currently tested on MacOS.
-
 UNAME_S := $(shell uname -s)
 
 # CC
