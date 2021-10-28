@@ -215,12 +215,7 @@ int main(int argc, char* argv[]){
         algo = NULL;
     }
     else if (algorithm.compare(0, 3, "mgs") == 0){
-        if ((eval_opt.compare("degree") == 0) && (algo_opt.compare("exchange")!=0)){
-            args[1] = args[1];
-        }
-        else{
-            args[1] = args[1] + "_" + eval_opt;
-        }
+        args[1] = args[1] + "_" + eval_opt;
         outputdir = make_directory(args);
         cout << outputdir + "sampled_graph.txt" << endl;
         if (file_exist(outputdir + "sampled_graph.txt")){
