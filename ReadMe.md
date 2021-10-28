@@ -2,7 +2,7 @@
 
 <img src="correction/correction.jpg" width="900"/>
 
----
+- - -
 
 We provide source code for, 
 
@@ -26,18 +26,19 @@ In the papaer, we used datasets after removing duplicated hyperedges. We preproc
 
 ## How to Run
 
+#### Example
 You can run all thirteen sampling algorithms including MiDaS by
 
 ```
 ./run_sampling.sh
 ```
 
+#### src/main.cpp
 
+
+#### analyze
 
 
 ## Environment
 
-The environment of running codes is specified in the file,
-```
-environment.yml
-```
+The environment of running codes is specified in `environment.yml`
