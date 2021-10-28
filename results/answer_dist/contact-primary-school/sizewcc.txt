@@ -1,2 +1,0 @@
-size_wcc,num_nodes
-242,242
