@@ -1,2 +1,0 @@
-num nodes,num edges
-1261129,1204704
