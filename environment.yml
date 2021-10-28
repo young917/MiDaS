@@ -128,5 +128,3 @@ dependencies:
   - zstd=1.4.5=h9ceee32_0
   - pip:
     - snap-stanford==6.0.0
-prefix: /home/dmlab/anaconda3/envs/samplingCPP
-
