@@ -72,7 +72,7 @@ void Algorithm_RW::walk(int seed, int max_length, set<int> &pool, int remain){
     }
 }
 
-HSet* Algorithm_RW::run(double target_portion, bool output){
+HSet* Algorithm_RW::run(double target_portion){
     int target_size = int(floor(graph->number_of_hedges * target_portion));
     std::random_device rd;
     std::mt19937 gen(rd());

@@ -17,7 +17,7 @@ public:
     vector<bool> check;
 
     Algorithm_RW(string eval_opt, string algo_opt, string outputdir, HyperGraph *graph, double restart, int givenmaxlength);
-    HSet* run(double target_portion, bool output);
+    HSet* run(double target_portion);
     void walk(int seed_node, int max_length, set<int> &pool, int remain);
 };
 #endif

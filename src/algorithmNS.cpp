@@ -25,38 +25,6 @@ void AlgorithmNS::initiate(void){
             nodes.push_back(v);
         }
     }
-    else if(algo_opt.compare(0, 4, "core")==0){
-        // clean data
-        for(auto &item : leaf2nodes){
-            auto &vec = item.second;
-            vec.clear();
-        }
-        leaf2nodes.clear();
-        node_tree.clear();
-
-        // resize map
-        int max_core = 0;
-        for(int v = 0; v < graph->number_of_nodes ; v++){
-            int nodecore = node_core[v];
-            max_core = max(nodecore, max_core);
-        }
-        int height = (int)ceil(log2(max_core + 1));
-        int whole_size = exp2(height+1);
-        leaf_start = exp2(height);    
-        node_tree.resize(whole_size, 0);
-        
-        // store
-        for(int v = 0; v < graph->number_of_nodes ; v++){
-            int nodecore = node_core[v];
-            leaf2nodes[nodecore].push_back(v);
-        }
-        for(int vcore = 0 ; vcore <= max_core ; vcore++){
-            node_tree[leaf_start + vcore] = vcore * (int)leaf2nodes[vcore].size();
-        }
-        for(int p = leaf_start - 1 ; p > 0 ; p--){
-            node_tree[p] = node_tree[2 * p] + node_tree[2 * p + 1];
-        }
-    }
     else if(algo_opt.compare(0, 10, "global_deg") == 0){
         // clean data
         for(auto &item : leaf2nodes){
@@ -172,7 +140,7 @@ int AlgorithmNS::sample_node(void){
     return -1;
 }
 
-HSet* AlgorithmNS::run(double target_portion, bool output){
+HSet* AlgorithmNS::run(double target_portion){
     int target_hyperedge_size = int(floor(graph->number_of_hedges * target_portion));
     random_device rd;
     mt19937 g(rd());

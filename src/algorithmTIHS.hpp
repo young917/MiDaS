@@ -20,7 +20,7 @@ public:
         this->outputdir = outputdir;
         this->graph = graph;
     }
-    HSet* run(double target_portion, bool output);
+    HSet* run(double target_portion);
     int sample_hedge(vector<bool> hedge_check, int remain);
 };
 #endif

@@ -82,13 +82,7 @@ void AlgorithmES::initiate(void){
             }
         }
         else{
-            if(algo_opt.compare(0, 4, "core") == 0){
-                for (int v = 0 ; v < graph->number_of_nodes ; v++){
-                    int vcore = node_core[v];
-                    node2prop[v] = vcore;
-                }
-            }
-            else if(algo_opt.compare(0, 10, "global_deg")==0){
+            if(algo_opt.compare(0, 10, "global_deg")==0){
                 for(int v = 0 ; v < graph->number_of_nodes ; v++){
                     int deg = (int)graph->node2hyperedge[v].size();
                     node2prop[v] = deg;
@@ -223,7 +217,7 @@ int AlgorithmES::sample_hedge(void){
     return -1;
 }
 
-HSet* AlgorithmES::run(double target_portion, bool output){
+HSet* AlgorithmES::run(double target_portion){
     int target_size = int(floor(graph->number_of_hedges * target_portion));
 
     cout << "Run ES" << endl;
@@ -233,13 +227,10 @@ HSet* AlgorithmES::run(double target_portion, bool output){
     set<int> add_set, rm_set;
 
     int repeat = 1;
-    // if (graph->dataname.compare(0, 4, "tags") == 0) repeat = 1;
-    // else if (graph->dataname.compare(0, 7, "threads") == 0) repeat = 1;
-    // else if (graph->dataname.compare(0, 6, "coauth") == 0) repeat = 1;
-    
+ 
     auto start = std::chrono::steady_clock::now();
     set<int> initial_state;
-    initiate(); // build tree
+    initiate();
     sampled = new HSet(initial_state, graph, eval_opt);
     add_set.clear();
     while((int)add_set.size() < target_size){

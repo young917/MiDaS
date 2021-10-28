@@ -18,7 +18,7 @@ int Algorithm_TIHS::sample_hedge(vector<bool> hedge_check, int remain){
     return sampled_hedge;
 }
 
-HSet* Algorithm_TIHS::run(double target_portion, bool output){
+HSet* Algorithm_TIHS::run(double target_portion){
     int target_size = int(floor(graph->number_of_hedges * target_portion));
     std::random_device rd;
     std::mt19937 gen(rd());

@@ -200,7 +200,7 @@ Attribute::Attribute(vector<vector<int>> node2hyperedge, vector<vector<int>> hyp
     }
     this->attr_list["degree"] = degree;
     degree.clear();
-    if (eval_opt.compare("all") == 0){
+    if (eval_opt.compare("avg") == 0){
         // size
         unordered_map<int, long long> size;
         for (auto h : _hset){
@@ -340,7 +340,7 @@ void Attribute::set_attribute(vector<vector<int>> node2hyperedge, vector<vector<
     }
     this->attr_list["degree"] = degree;
     degree.clear();
-    if (eval_opt.compare("all") == 0){
+    if (eval_opt.compare("avg") == 0){
         // size
         unordered_map<int, long long> size;
         for (auto h : hset){

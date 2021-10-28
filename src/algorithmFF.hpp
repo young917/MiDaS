@@ -16,7 +16,7 @@ public:
     // vector<vector<int>> tie;
 
     Algorithm_FF(double p, double q, string eval_opt, string algo_opt, string outputdir, HyperGraph *graph);
-    HSet* run(double target_portion, bool output);
+    HSet* run(double target_portion);
     void burn1(int ambassador, vector<int> &burned_nodes_list, double prob);
     void burn2(int ambassador, set<int> &add, double prob, int target);
 };

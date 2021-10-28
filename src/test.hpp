@@ -20,7 +20,7 @@ inline void test_dynamic_change(HyperGraph *graph, int num_tries){
     printf("Add All\n"); 
     shuffle(hyperedges.begin(), hyperedges.end(), g);
     tmp.insert(hyperedges[0]);
-    HSet *testing1 = new HSet(tmp, graph, "all");
+    HSet *testing1 = new HSet(tmp, graph, "avg");
     for(int i = 1 ; i < graph->number_of_hedges ; i++){
         tmp.clear();
         tmp.insert(hyperedges[i]);
@@ -38,7 +38,7 @@ inline void test_dynamic_change(HyperGraph *graph, int num_tries){
     shuffle(hyperedges.begin(), hyperedges.end(), g);
     tmp.clear();
     for(int h = 0 ; h < graph->number_of_hedges ; h++) tmp.insert(h);
-    HSet *testing2 = new HSet(tmp, graph, "all");
+    HSet *testing2 = new HSet(tmp, graph, "avg");
     for(int i = 0 ; i < graph->number_of_hedges ; i++){
         tmp.clear();
         tmp.insert(hyperedges[i]);
@@ -63,7 +63,7 @@ inline void test_dynamic_change(HyperGraph *graph, int num_tries){
         tmp.insert(hyperedges[i]);
         current_set.insert(hyperedges[i]);
     }
-    HSet *testing3 = new HSet(tmp, graph, "all");
+    HSet *testing3 = new HSet(tmp, graph, "avg");
     
     for (int i = 0; i< num_tries; i++){
         int selection = rand() % 2;
@@ -95,7 +95,7 @@ inline void test_dynamic_change(HyperGraph *graph, int num_tries){
             }
             testing3->dynamic_update_eval(tmp, graph, "-");
         }
-        HSet *ans = new HSet(current_set, graph, "all");
+        HSet *ans = new HSet(current_set, graph, "avg");
         
         for (auto dist : testing3->attr->attr_list){
             string dist_name = dist.first;

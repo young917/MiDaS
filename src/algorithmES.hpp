@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <cstdlib> // for std::and() and std::srand()
 
-# include "setgenerator.hpp"
+# include "hset.hpp"
 
 #ifndef ALGORITHMES_HPP
 #define ALGORITHMES_HPP
@@ -22,7 +22,6 @@ public:
     int algo_opt_length;
     HyperGraph *graph;
 
-    vector<int> node_core;
     vector<int> hedge2prop;
     vector<int> node2prop;
     vector<int> hedges;
@@ -43,17 +42,7 @@ public:
         
         this->node2prop.resize(graph->number_of_nodes);
         this->hedge2prop.resize(graph->number_of_hedges);
-        this->node_core.resize(graph->number_of_nodes, 0);
-        string path = "./results/answer_dist/" + graph->dataname + "/nodecoreness.txt";
-        ifstream coreFile(path.c_str());
-        string line;
-        while (getline(coreFile, line)){
-            vector<string> tokens = split(line, ',');
-            string vname = tokens[0];
-            int vindex = graph->nodename2index[vname];
-            int vcore = stoi(tokens[1]);
-            node_core[vindex] = vcore;
-        }
+        
         string parampath = outputdir + "parameters.txt";
         ofstream paramFile(parampath.c_str());
         paramFile << "algo opt: " << algo_opt << endl;
@@ -70,10 +59,9 @@ public:
         hedge2prop.clear();
         node2prop.clear();
         hedges.clear();
-        node_core.clear();
     }
 
-    HSet* run(double target_portion, bool output);
+    HSet* run(double target_portion);
     void step_log(string postfix, HSet *sampled);
     void initiate(void);
     void update_prop(int &hprop, int cand);

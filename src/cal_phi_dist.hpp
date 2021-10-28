@@ -49,7 +49,6 @@ inline void output(vector<int> node2prop, vector<int> hyperedge2prop, HyperGraph
             hyperedge_check[h] = true;
         }
     }
-    outputFile << to_string(cur_deg) << "," << to_string(sum_phi / phi_num) << "," << to_string(min_phi) << "," << to_string(max_phi) << endl;
     outputFile.close();
 }
 

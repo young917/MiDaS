@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <cstdlib> // for std::and() and std::srand()
 
-# include "setgenerator.hpp"
+# include "hset.hpp"
 
 #ifndef ALGORITHMNS_HPP
 #define ALGORITHMNS_HPP
@@ -20,7 +20,6 @@ public:
     HyperGraph *graph;
     double alpha;
 
-    vector<int> node_core;
     vector<int> nodes;
     vector<double> node_tree;
     int leaf_start;
@@ -32,20 +31,8 @@ public:
         this->outputdir = outputdir;
         this->algo_opt = algo_opt;
         this->graph = graph;
-        
-        this->node_core.resize(graph->number_of_nodes, 0);
-        string path = "./results/answer_dist/" + graph->dataname + "/nodecoreness.txt";
-        ifstream coreFile(path.c_str());
-        string line;
-        while (getline(coreFile, line)){
-            vector<string> tokens = split(line, ',');
-            string vname = tokens[0];
-            int vindex = graph->nodename2index[vname];
-            int vcore = stoi(tokens[1]);
-            node_core[vindex] = vcore;
-        }
     }
-    HSet* run(double target_portion, bool output);
+    HSet* run(double target_portion);
 
     void step_log(string postfix, HSet *sampled);
     int sample_he(HSet *sampled, int flag);
