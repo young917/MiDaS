@@ -19,6 +19,7 @@ Measure how precisely the sub-hypergraph preserves the structural properties of 
 * *hyperedge-level statistics* : the distributions of hyperedge sizes and intersection sizes
 * *graph-level statistics* : average clustering coefficient, density, overlapness, and effective diameter
 
+(3) Reproducing *all* figures in the main paper
 
 ## Datasets
 
@@ -33,8 +34,8 @@ You can run all thirteen sampling algorithms including MiDaS by
 ./run_sampling.sh
 ```
 
-#### src/main.cpp
-
+#### Sampling
+* src/main.cpp
 after `make`, type `./bin/Sampling arguments`
 ```
 required arguments:
@@ -64,9 +65,30 @@ optional arguments depending on ALGORITHM:
   ff            --p P --q Q: p and q for the parameters same in HyperFF
   test_dynamic  --num_tries NUMTRIES: the number of iterations
 ```
+* analyze/midas.py
 
-#### analyze
+* analyze/ablation.py
 
+
+#### Find Properties
+* helper.py
+```
+python helper.py
+```
+
+* analyze_sv.py
+```
+python analyze.py
+```
+For large datasets(threads and coauth domain),
+
+#### Plot Figures
+* analyze_result.py
+* draw_figures.py
+* observation.py
+* time_eval.py
+* ablation_study.py
+* theorem_plot.py
 
 ## Environment
 
