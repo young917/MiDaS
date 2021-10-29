@@ -87,14 +87,34 @@ python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDa
 ### Find Properties
 * helper.py
 ```
-python helper.py
+python helper.py --overlapness --diameter # find overlapness and diameter of the sampled hypergraphs
+python helper.py --get_eval # calculate D-Statistics and relative difference
+python helper.py --repeat_agg # average of repetition
+
+default setting:
+  run over all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
+
+arguments:
+  --inputpath DIRPATH: use if you want to consider *only* results in this directory
+  --dataname DATANAME: use if you want to consider *only* sampled hypergraphs from this dataset
+  --algorithmlist ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms.
+  --portion PORTIONLIST: pass PORTIONLIST where sampling portions are separated by "," if you want to consider *only* results from these portions.
 ```
 
 * analyze_sv.py
 ```
 python analyze.py
+default setting:
+  find singular values in all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
+
+arguments:
+  --repeat_str:
+  --portion_str:
+  --dataname DATALIST:
+  --algoname ALGORITHMLIST:
+  
 ```
-For large datasets(threads and coauth domain),
+For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
 
 ### Plot Figures
 * analyze_result.py
