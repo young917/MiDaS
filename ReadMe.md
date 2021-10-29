@@ -3,7 +3,7 @@
 <img src="correction/correction.jpg" width="900"/>
 
 
-Corrections can be found in the below "Correction" section and "correction/" directory.
+Corrections can be found in the below **Correction** section and "correction/" directory.
 
 - - -
 
