@@ -134,6 +134,8 @@ arguments:
 
 ### Plot Figures
 
+In the *analyze* directory,
+
 * analyze_result.py (Make Table)
 * draw_figures.py
 * observation.py
