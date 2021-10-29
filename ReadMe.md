@@ -7,6 +7,7 @@
 We provide source code for, 
 
 (1) **Sampling Hypergraphs**
+
 * *Simple and Intuitive Approaches* : six intuitive approaches(RNS, RDN, RW, FF, RHS, TIHS) experimenting on 11 datasets with a focus on their limitations in preserving 10 properties
 * *MiDaS-Basic* : a preliminary version of MiDaS which can improve the limitations of intuitive approaches by proper alpha setting
 * *MiDaS*: a full-fledged version which can automatically tune alpha
@@ -32,6 +33,7 @@ In the papaer, we used datasets after removing duplicated hyperedges. We preproc
 ## How to Run
 
 ### Example
+
 You can run all thirteen sampling algorithms including MiDaS by
 
 ```
@@ -39,8 +41,10 @@ You can run all thirteen sampling algorithms including MiDaS by
 ```
 
 ### Sampling
+
 * src/main.cpp
 after `make`, type `./bin/Sampling arguments`
+
 ```
 required arguments:
   --algorithm ALGORITHM       --algo_opt  ALGORITHMOPTION: choose one of the below
@@ -69,7 +73,9 @@ optional arguments depending on ALGORITHM:
   ff            --p P --q Q: p and q for the parameters same in HyperFF
   test_dynamic  --num_tries NUMTRIES: the number of iterations
 ```
+
 * MiDaS
+
 ```
 cd analyze
 python midas.py --data DATA --portion SAMPLINGPORTION
@@ -89,6 +95,7 @@ python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDa
 After running `main.cpp`, properties of the sampled hypergraphs are already saved in the directory except for overlapness, singular values and diameter. Thus, we find remaining properties of the sampled hypergraphs and then calculate distances from the entire hypergraph with respect to ten properties.
 
 * analyze_sv.py
+
 ```
 python analyze.py
 default setting:
@@ -104,6 +111,7 @@ arguments:
 For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
 
 * helper.py
+
 ```
 python helper.py --overlapness --diameter # find overlapness and diameter of the sampled hypergraphs
 python helper.py --get_eval # calculate D-Statistics and relative difference
@@ -120,6 +128,7 @@ arguments:
 ```
 
 ### Plot Figures
+
 * analyze_result.py
 * draw_figures.py
 * observation.py
