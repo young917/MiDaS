@@ -111,11 +111,11 @@ def run_midas_grid(portion, data, search_space):
 
     best_performing_alpha = -1
     best_dstat = 1000
-    time = 0
+    total_time = 0
     trynum = 0
     for algoname in algorithmlist:
         degDstat, time = query_degDstat_Time(algoname, data, portion)
-        time += time
+        total_time += time
         trynum += 1
         if degDstat < best_dstat:
             best_dstat = degDstat
@@ -127,7 +127,7 @@ def run_midas_grid(portion, data, search_space):
     if os.path.isdir(outputdir) is False:
         os.makedirs(outputdir)
     with open(outputdir + "time.txt", "w") as f:
-        f.write(str(time) + "\n")
+        f.write(str(total_time) + "\n")
 
     return best_performing_alpha, best_dstat, time, trynum
 

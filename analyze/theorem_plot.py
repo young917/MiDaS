@@ -60,7 +60,7 @@ def analyze(dname):
             ax.xaxis.set_major_locator(locmaj)
         
         plt.xlabel("k", fontsize=20)
-        plt.ylabel(r"$ln\phi(e)$", fontsize=20)
+        plt.ylabel(r"$ln\omega(e)$", fontsize=20)
         plt.tight_layout()
         savedir = "figures/Theorem/" + opt + "/"
         if os.path.isdir(savedir) is False:
