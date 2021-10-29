@@ -1,6 +1,6 @@
 # MiDaS: Representative Sampling from Real-world Hypergraphs
 
-<img width=90% src="Corrections/correction.jpg"/>
+<img src="Corrections/correction.jpg" width=900/>
 
 - - -
 
