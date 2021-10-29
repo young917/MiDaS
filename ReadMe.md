@@ -64,7 +64,8 @@ required arguments:
   --eval_opt EVAL: [degree/avg] When running mgs, choose degree if you aim to preserve node degrees. On the other hand, choose avg if you aim to 
                                 preserve node degrees, hyperedge sizes, node-pair degrees and hyperedge intersection sizes at the same time.
   --repeat REPEAT: the order of repeating
-
+```
+```
 optional arguments depending on ALGORITHM:
   ALGORITHM
   es or ns      --alpha ALPHA: the degree of bias towards those with high-degree nodes
@@ -100,14 +101,15 @@ After running `main.cpp`, properties of the sampled hypergraphs are already save
 python analyze.py
 default setting:
   find singular values in all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
-
+```
+```
 arguments:
   --repeat_str REPEATLIST: pass REPEATLIST where indexes are separated by "," if you want to consider *only* results from these repeat indexes. (eg. "1,2,3")
   --portion_str PORTIONLIST: pass PORTIONLIST where sampling portions are separated by "," if you want to consider *only* these portions. (eg. "0.30,0.20")
   --dataname DATALIST: pass DATALIST where datasets are separated by "," if you want to consider *only* sampled hypergraphs from these datasets. (eg. "email-Eu-full,coauth-MAG-Geology-full")
   --algoname ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms. (eg. "midas,tihs")
-  
 ```
+
 For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
 
 * helper.py
@@ -116,10 +118,12 @@ For large datasets(threads and coauth domain), run `preprocess_sv.py` and use ma
 python helper.py --overlapness --diameter # find overlapness and diameter of the sampled hypergraphs
 python helper.py --get_eval # calculate D-Statistics and relative difference
 python helper.py --repeat_agg # average of repetition
-
+```
+```
 default setting:
   run over all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
-
+```
+```
 arguments:
   --inputpath DIRPATH: use if you want to consider *only* results in this directory
   --dataname DATANAME: use if you want to consider *only* sampled hypergraphs from this dataset
