@@ -111,7 +111,7 @@ arguments:
   --algoname ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms. (eg. "midas,tihs")
 ```
 
-For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
+For large datasets (threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
 
 * helper.py
 
