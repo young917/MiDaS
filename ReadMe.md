@@ -88,6 +88,21 @@ python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDa
 
 After running `main.cpp`, properties of the sampled hypergraphs are already saved in the directory except for overlapness, singular values and diameter. Thus, we find remaining properties of the sampled hypergraphs and then calculate distances from the entire hypergraph with respect to ten properties.
 
+* analyze_sv.py
+```
+python analyze.py
+default setting:
+  find singular values in all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
+
+arguments:
+  --repeat_str REPEATLIST: pass REPEATLIST where indexes are separated by "," if you want to consider *only* results from these repeat indexes. (eg. "1,2,3")
+  --portion_str PORTIONLIST: pass PORTIONLIST where sampling portions are separated by "," if you want to consider *only* these portions. (eg. "0.30,0.20")
+  --dataname DATALIST: pass DATALIST where datasets are separated by "," if you want to consider *only* sampled hypergraphs from these datasets. (eg. "email-Eu-full,coauth-MAG-Geology-full")
+  --algoname ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms. (eg. "midas,tihs")
+  
+```
+For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
+
 * helper.py
 ```
 python helper.py --overlapness --diameter # find overlapness and diameter of the sampled hypergraphs
@@ -103,21 +118,6 @@ arguments:
   --algorithmlist ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms. (eg. "midas,tihs")
   --portion PORTIONLIST: pass PORTIONLIST where sampling portions are separated by "," if you want to consider *only* results from these portions. (eg. "0.30,0.20")
 ```
-
-* analyze_sv.py
-```
-python analyze.py
-default setting:
-  find singular values in all results from seventeen sampling methods(including ablation study) in multiple settings(eleven datasets and five sampling portions)
-
-arguments:
-  --repeat_str REPEATLIST: pass REPEATLIST where indexes are separated by "," if you want to consider *only* results from these repeat indexes. (eg. "1,2,3")
-  --portion_str PORTIONLIST: pass PORTIONLIST where sampling portions are separated by "," if you want to consider *only* these portions. (eg. "0.30,0.20")
-  --dataname DATALIST: pass DATALIST where datasets are separated by "," if you want to consider *only* sampled hypergraphs from these datasets. (eg. "email-Eu-full,coauth-MAG-Geology-full")
-  --algoname ALGORITHMLIST: pass ALGORITHMLIST where algorithms are separated by "," if you want to consider *only* results from these algorithms. (eg. "midas,tihs")
-  
-```
-For large datasets(threads and coauth domain), run `preprocess_sv.py` and use matlab to find singularvalues fast(refer to `script_for_sv_geology.m`)
 
 ### Plot Figures
 * analyze_result.py
