@@ -85,6 +85,9 @@ python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDa
 ```
 
 ### Find Properties
+
+After running `main.cpp`, properties of the sampled hypergraphs are already saved in the directory except for overlapness, singular values and diameter. Thus, we find remaining properties of the sampled hypergraphs and then calculate distances from the entire hypergraph with respect to ten properties.
+
 * helper.py
 ```
 python helper.py --overlapness --diameter # find overlapness and diameter of the sampled hypergraphs
