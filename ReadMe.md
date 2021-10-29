@@ -21,20 +21,24 @@ Measure how precisely the sub-hypergraph preserves the structural properties of 
 
 (3) Reproducing *all* figures in the main paper
 
+- - -
+
 ## Datasets
 
 In the papaer, we used datasets after removing duplicated hyperedges. We preprocessed thirteen datasets collected We preprocessed datasets collected by [Austin R. Benson][https://www.cs.cornell.edu/~arb/]. The datasets used in the paper are available in the "dataset" folder.
 
+- - -
+
 ## How to Run
 
-#### Example
+### Example
 You can run all thirteen sampling algorithms including MiDaS by
 
 ```
 ./run_sampling.sh
 ```
 
-#### Sampling
+### Sampling
 * src/main.cpp
 after `make`, type `./bin/Sampling arguments`
 ```
@@ -80,7 +84,7 @@ python ablation_study.py --select 0 --algotype es --opt global_deg_min    # MiDa
 python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDaS-Basic-NS
 ```
 
-#### Find Properties
+### Find Properties
 * helper.py
 ```
 python helper.py
@@ -92,13 +96,15 @@ python analyze.py
 ```
 For large datasets(threads and coauth domain),
 
-#### Plot Figures
+### Plot Figures
 * analyze_result.py
 * draw_figures.py
 * observation.py
 * time_eval.py
 * ablation_study.py
 * theorem_plot.py
+
+- - -
 
 ## Environment
 
