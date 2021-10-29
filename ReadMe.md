@@ -65,10 +65,20 @@ optional arguments depending on ALGORITHM:
   ff            --p P --q Q: p and q for the parameters same in HyperFF
   test_dynamic  --num_tries NUMTRIES: the number of iterations
 ```
-* analyze/midas.py
+* MiDaS
+```
+cd analyze
+python midas.py --data DATA --portion SAMPLINGPORTION
+```
 
-* analyze/ablation.py
-
+* Ablation Study (MiDaS-Basic-Max, MiDas-Basic-Avg, MiDas-Basic-NS)
+```
+cd analyze
+python ablation_study.py --select 0 --algotype es --opt global_deg_max    # MiDaS-Basic-Max
+python ablation_study.py --select 0 --algotype es --opt global_deg_avg    # MiDaS-Basic-Avg
+python ablation_study.py --select 0 --algotype es --opt global_deg_min    # MiDaS-Basic-Grid in the searchspace for ablation study
+python ablation_study.py --select 0 --algotype ns --opt global_deg        # MiDaS-Basic-NS
+```
 
 #### Find Properties
 * helper.py
