@@ -1,7 +1,7 @@
 # MiDaS: Representative Sampling from Real-world Hypergraphs
 
 <img src="correction/correction.jpg" width="900"/>
-Corrections can be found in the below <a href="https://github.com/young917/MiDaS/edit/main/ReadMe.md ## Correction" target="_blank"> Correction</a> and "correction/" directory.
+Corrections can be found in the below <a href="https://github.com/young917/MiDaS/blob/main/ReadMe.md#correction" target="_blank"> Correction</a> and "correction/" directory.
 
 - - -
 
