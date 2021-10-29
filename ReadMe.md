@@ -3,7 +3,7 @@
 <img src="correction/correction.jpg" width="900"/>
 
 
-Corrections can be found in the below <a href="https://anonymous.4open.science/r/MiDaS-EA2F/ReadMe.md#correction" target="_blank"> Correction</a> and "correction/" directory.
+Corrections can be found in the below "Correction" section and "correction/" directory.
 
 - - -
 
@@ -148,11 +148,16 @@ arguments:
 
 ## Correction
 
-We correct two figures(Figure 2(a) and Figure 12). In Figure 2(a), the x-axis has the values in Figure 9 and the y-axis has the values in Table 3. It still shows that MiDaS rapidly finds overall the most representative sub-hypergraphs. This figure can be reproduced by `python draw_figures.py --select 1`.
+We correct two figures(Figure 2(a) and Figure 12). 
+In Figure 2(a), the x-axis has the values in Figure 9 and the y-axis has the values in Table 3. 
+It still shows that MiDaS rapidly finds overall the most representative sub-hypergraphs. 
+This figure can be reproduced by `python draw_figures.py --select 1`.
 
 <img src="correction/Figure12_correction.png" width=550/>
 
-Above Figure 12, the gray line (i.e., average degree) has the values in Table 4. We note that the values except the average degree still remain. This figure can be reproduced by `python theorem_plot.py --data [email-Eu-full, coauth-MAG-Geology-full`. 
+Above Figure 12, the gray line (i.e., average degree) has the values in Table 4. 
+We note that the values except the average degree still remain. 
+This figure can be reproduced by `python theorem_plot.py --data [email-Eu-full, coauth-MAG-Geology-full`. 
 
 - - -
 
