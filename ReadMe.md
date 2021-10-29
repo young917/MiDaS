@@ -26,7 +26,7 @@ Measure how precisely the sub-hypergraph preserves the structural properties of 
 
 ## Datasets
 
-In the papaer, we used datasets after removing duplicated hyperedges. We preprocessed thirteen datasets collected We preprocessed datasets collected by [Austin R. Benson][https://www.cs.cornell.edu/~arb/]. The datasets used in the paper are available in the "dataset" folder.
+In the papaer, we used datasets after removing duplicated hyperedges. We preprocessed eleven datasets collected by [Austin R. Benson][https://www.cs.cornell.edu/~arb/]. The datasets used in the paper are available in the "dataset" folder.
 
 - - -
 
