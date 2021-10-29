@@ -1,6 +1,7 @@
 # MiDaS: Representative Sampling from Real-world Hypergraphs
 
 <img src="correction/correction.jpg" width="900"/>
+Corrections can be found in the below "Correction" section and "correction/" directory.
 
 - - -
 
@@ -146,7 +147,11 @@ arguments:
 ## Correction
 
 We correct two figures(Figure 2(a) and Figure 12). In Figure 2(a), the x-axis has the values in Figure 9 and the y-axis has the values in Table 3.
-This figure can be reproduced by `python draw_figures.py --select 1`. In Figure 12, the gray line (i.e., average degree) has the values in Table 4.
+This figure can be reproduced by `python draw_figures.py --select 1`. 
+
+<img src="correction/Figure12_correction.png" width=550/>
+
+Above Figure 12, the gray line (i.e., average degree) has the values in Table 4.
 This figure can be reproduced by `python theorem_plot.py --data [email-Eu-full, coauth-MAG-Geology-full`.
 
 - - -
