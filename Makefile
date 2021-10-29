@@ -11,7 +11,6 @@ endif
 SRCDIR := src
 BUILDDIR := build
 TARGETDIR := bin
-# BOOSTDIR := /usr/local/Cellar/boost/1.67.0_1
 # Targets
 EXECUTABLE := Sampling
 TARGET := $(TARGETDIR)/$(EXECUTABLE)
@@ -29,7 +28,7 @@ INC := -I /usr/local/include
 LIB := -L /usr/local/lib
 
 ifeq ($(UNAME_S),Linux)
-	CFLAGS += -std=gnu++11 -O3 # -fPIC
+	CFLAGS += -std=gnu++11 -O3
 
 	# PostgreSQL Special
 	PG_VER := 9.3
