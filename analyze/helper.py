@@ -457,12 +457,13 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
                 r.write(ename + " : " + str(arg_dict[ename]) + "\n")
 
 if __name__ == "__main__":
-    algorithmlist = ["midas", "es/global_deg_min_0.0000",
-                    "ns/global_deg_1.0000", "ns/global_deg_0.0000",
+    algorithmlist = ["midas", "ns/global_deg_1.0000", 
+                    "es/global_deg_min_0.0000", "ns/global_deg_0.0000",
                     "tihs", "rw/rw_c_1", "ff/ff_c_0.51_0.20",
-                    "mh/add_degree", "mh/exchange_degree", "mh/remove_degree",
-                    "mh/add_avg", "mh/exchange_avg", "mh/remove_avg"]
-
+                    "mgs/add_degree", "mgs/exchange_degree", "mgs/remove_degree",
+                    "mgs/add_avg", "mgs/exchange_avg", "mgs/remove_avg",
+                    "midas_grid_ablation", "maxdegree", "avgdegree", "midas_ns"]
+                    
     portionlist = ["0.30", "0.10", "0.20", "0.40", "0.50"]
 
     parser = argparse.ArgumentParser()
