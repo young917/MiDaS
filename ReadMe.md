@@ -83,6 +83,7 @@ python midas.py --data DATA --portion SAMPLINGPORTION
 ```
 
 * Ablation Study (MiDaS-Basic-Max, MiDas-Basic-Avg, MiDas-Basic-NS)
+
 ```
 cd analyze
 python ablation_study.py --select 0 --algotype es --opt global_deg_max    # MiDaS-Basic-Max
