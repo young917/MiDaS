@@ -2,6 +2,7 @@
 
 <img src="correction/correction.jpg" width="900"/>
 
+
 Corrections can be found in the below <a href="https://anonymous.4open.science/r/MiDaS-EA2F/ReadMe.md#correction" target="_blank"> Correction</a> and "correction/" directory.
 
 - - -
