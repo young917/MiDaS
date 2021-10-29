@@ -2,7 +2,7 @@
 
 <img src="correction/correction.jpg" width="750"/>
 
-<img src="correction/Figure12_correction.png" width="750"/>
+<img src="correction/Figure12_correction.png" width="800"/>
 
 - - -
 
