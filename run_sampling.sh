@@ -3,7 +3,7 @@ searchspace=("0.0" "0.125" "0.1768" "0.25" "0.3536" "0.5" "0.7071" "1.0" "1.4142
 
 for repeat_index in 1 2 3
 do
-    for p in 0.1 0.2 0.3 0.4 0.5
+    for portion in 0.1 0.2 0.3 0.4 0.5
     do
         for data in ${dataset[@]}
         do
