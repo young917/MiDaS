@@ -189,7 +189,7 @@ if __name__ == "__main__":
     parser.add_argument('--portion', required=True, type=float)
     args = parser.parse_args()
 
-    search_space = [float("%.4f" % (2 ** i)) for i in np.arange(-3,6.5,0.5)] + [0.0]
+    search_space = sorted([float("%.4f" % (2 ** i)) for i in np.arange(-3,6.5,0.5)] + [0.0])
     
     # MiDaS_Grid
     result_alpha = defaultdict(dict)
