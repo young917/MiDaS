@@ -18,6 +18,7 @@ dataset = ["email-Enron-full", "email-Eu-full",
             "NDC-classes-full", "NDC-substances-full",
             "tags-ask-ubuntu", "tags-math-sx",
             "threads-ask-ubuntu", "coauth-MAG-History-full", "coauth-MAG-Geology-full"]
+            # "threads-math-sx","coauth-DBLP-full"]
 repeat_time = 3
 
 def get_subdirectories(ls, dataname=None):
@@ -60,11 +61,34 @@ def get_diameter(inputpath, dataname, algorithmlist, portionlist, split_num, spl
                         dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
                         if os.path.isdir(dir_name):
                             dir_list_all.append(dir_name)
-                    
+                        # for mhname in mhlist:
+                        #     mhdir_name = "../results/" + algoname + "_" + mhname + "/" + dataname + "_" + portion + "/" + str(i) + "/"
+                        #     if os.path.isdir(mhdir_name):
+                        #         dir_list_all.append(mhdir_name)
+                    # no repeat
+                    dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/"
+                    if os.path.isdir(dir_name):
+                        dir_list_all.append(dir_name)
+                    # for mhname in mhlist:
+                    #     mhdir_name = "../results/" + algoname + "_" + mhname + "/" + dataname + "_" + portion + "/"
+                    #     if os.path.isdir(mhdir_name):
+                    #         dir_list_all.append(mhdir_name)
+
+        # for algoname in algorithmlist_nmh:
+        #     for dataname in _dataset:
+        #         for portion in portionlist:
+        #             for i in range(1, repeat_time + 1):
+        #                 dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
+        #                 if os.path.isdir(dir_name):
+        #                     dir_list_all.append(dir_name)
+        #             dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/"
+        #             if os.path.isdir(dir_name):
+        #                 dir_list_all.append(dir_name)
     split_gap = math.ceil(len(dir_list_all) / split_num)
     end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
     dir_list_all = dir_list_all[split_gap * (split_idx) : end_idx]
     for dir_name in tqdm(dir_list_all):
+        #print(dir_name)
         if type(dir_name) is tuple:
             inputpath, outputdir = dir_name
         else:
@@ -148,10 +172,31 @@ def get_overlapness(inputpath, dataname, algorithmlist, portionlist, split_num, 
                         dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
                         if os.path.isdir(dir_name):
                             dir_list_all.append(dir_name)
+                        # for mhname in mhlist:
+                        #     mhdir_name = "../results/" + algoname + "_" + mhname + "/" + dataname + "_" + portion + "/" + str(i) + "/"
+                        #     if os.path.isdir(mhdir_name):
+                        #         dir_list_all.append(mhdir_name)
                     
                     dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/"
                     if os.path.isdir(dir_name):
                         dir_list_all.append(dir_name)
+                    # for mhname in mhlist:
+                    #     mhdir_name = "../results/" + algoname + "_" + mhname + "/" + dataname + "_" + portion + "/"
+                    #     if os.path.isdir(mhdir_name):
+                    #         dir_list_all.append(mhdir_name)
+
+        # split_gap = math.ceil(len(algorithmlist_nmh) / split_num)
+        # end_idx = min(len(algorithmlist_nmh), split_gap * (split_idx + 1))
+        # for algoname in algorithmlist_nmh[split_gap * split_idx : end_idx]:
+        #     for dataname in _dataset:
+        #         for portion in portionlist:
+        #             for i in range(1, repeat_time + 1):
+        #                 dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
+        #                 if os.path.isdir(dir_name):
+        #                     dir_list_all.append(dir_name)
+        #             dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/"
+        #             if os.path.isdir(dir_name):
+        #                 dir_list_all.append(dir_name)
 
     split_gap = math.ceil(len(dir_list_all) / split_num)
     end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
@@ -203,18 +248,246 @@ def get_overlapness(inputpath, dataname, algorithmlist, portionlist, split_num, 
         with open(outputdir + "overlapness.txt", "w") as f:
             f.write(str(overlapness) + "\n")
 
-def get_dist_from_dir(dir_path):
-    if os.path.isfile(dir_path + "singular_values_full.txt"):
-        s = []
-        with open(dir_path + "singular_values_full.txt", "r") as f:
-            for line in f.readlines():
-                line = line[:-1]
-                s.append(float(line))
-        singular_values = {}
-        singular_values["singular_value"] = s
+def get_intersect(inputpath, dataname, algorithmlist, portionlist, split_num, split_idx, recalculate_flag):
+    print("Finding Intersection...")
+
+    if dataname is not None:
+        _dataset = [dataname]
     else:
-        return -1
-    
+        _dataset = dataset
+
+    if len(inputpath) > 0:
+        dir_list_all = get_subdirectories([inputpath])
+    else:
+        dir_list_all = []
+        # answer
+        for dataname in _dataset:
+            inputpath = "../../dataset/" + dataname + ".txt"
+            outputdir = "../results/answer_dist/" + dataname + "/"
+            if os.path.isfile(outputdir + "intersect_dist.txt") is False:
+                dir_list_all.append((inputpath, outputdir))
+        # algorithms
+        for algoname in algorithmlist:
+            for dataname in _dataset:
+                for portion in portionlist:
+                    # repeat
+                    for i in range(1, repeat_time + 1):
+                        dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
+                        if (os.path.isdir(dir_name) is True) and (os.path.isfile(dir_name + "intersect_dist.txt") is False):
+                            dir_list_all.append(dir_name)
+    split_gap = math.ceil(len(dir_list_all) / split_num)
+    end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
+    dir_list_all = dir_list_all[split_gap * (split_idx) : end_idx]            
+    for dir_name in tqdm(dir_list_all):
+        print(dir_name)
+
+        if type(dir_name) is tuple:
+            inputpath, outputdir = dir_name
+        else:
+            inputpath = dir_name + "sampled_graph.txt"
+            outputdir = dir_name
+
+        flag_sampled_graph = os.path.isfile(inputpath)
+        if flag_sampled_graph is False:
+            print("No sampled_graph in", dir_name)
+            continue
+
+        hyperedge2node = []
+        node2hyperedge = []
+        node2newindex = {}
+        with open(inputpath, "r") as f:
+            for hidx, line in enumerate(f.readlines()):
+                line = line[:-1] # strip enter
+                nodes = line.split(",")
+                newindexes = []
+                for i, node in enumerate(nodes):
+                    if node not in node2newindex:
+                        node2newindex[node] = len(node2newindex)
+                        node2hyperedge.append([])
+                    newindex = node2newindex[node]
+                    newindexes.append(newindex)
+                    node2hyperedge[newindex].append(hidx)
+                hyperedge2node.append(newindexes)
+        
+        # Find Intersection Distribution
+        intersection_dist = defaultdict(int)
+        tmp = defaultdict(int)
+        for ha in range(len(hyperedge2node)):
+            for v in hyperedge2node[ha]:
+                for hb in node2hyperedge[v]:
+                    if (ha < hb):
+                        key =str(ha) + "_" + str(hb)
+                        tmp[key] += 1
+        total = len(tmp.keys())
+        for key in tmp:
+            intersection_dist[tmp[key]] += 1
+
+        # Save Intersect Dist
+        with open(outputdir + "intersect_dist.txt", "w") as f:
+            f.write("intersect,value\n")
+            for intersect in intersection_dist:
+                dist = intersection_dist[intersect]
+                p = dist / total
+                f.write(str(intersect) + "," + str(p) + "\n")
+
+def get_pairdeg(inputpath, dataname, algorithmlist, portionlist, split_num, split_idx, recalculate_flag):
+    print("Finding Pair Degree...")
+
+    if dataname is not None:
+        _dataset = [dataname]
+    else:
+        _dataset = dataset
+
+    if len(inputpath) > 0:
+        dir_list_all = get_subdirectories([inputpath])
+    else:
+        dir_list_all = []
+        # answer
+        for dataname in _dataset:
+            inputpath = "../../dataset/" + dataname + ".txt"
+            outputdir = "../results/answer_dist/" + dataname + "/"
+            if os.path.isfile(outputdir + "pairdeg_dist.txt") is False:
+                dir_list_all.append((inputpath, outputdir))
+        # algorithms
+        for algoname in algorithmlist:
+            for dataname in _dataset:
+                for portion in portionlist:
+                    # repeat
+                    for i in range(1, repeat_time + 1):
+                        dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
+                        if (os.path.isdir(dir_name) is True) and (os.path.isfile(dir_name + "pairdeg_dist.txt") is False):
+                            dir_list_all.append(dir_name)
+    split_gap = math.ceil(len(dir_list_all) / split_num)
+    end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
+    dir_list_all = dir_list_all[split_gap * (split_idx) : end_idx]            
+    for dir_name in tqdm(dir_list_all):
+        print(dir_name)
+
+        if type(dir_name) is tuple:
+            inputpath, outputdir = dir_name
+        else:
+            inputpath = dir_name + "sampled_graph.txt"
+            outputdir = dir_name
+
+        flag_sampled_graph = os.path.isfile(inputpath)
+        if flag_sampled_graph is False:
+            print("No sampled_graph in", dir_name)
+            continue
+
+        hyperedge2node = []
+        node2hyperedge = []
+        node2newindex = {}
+        with open(inputpath, "r") as f:
+            for hidx, line in enumerate(f.readlines()):
+                line = line[:-1] # strip enter
+                nodes = line.split(",")
+                newindexes = []
+                for i, node in enumerate(nodes):
+                    if node not in node2newindex:
+                        node2newindex[node] = len(node2newindex)
+                        node2hyperedge.append([])
+                    newindex = node2newindex[node]
+                    newindexes.append(newindex)
+                    node2hyperedge[newindex].append(hidx)
+                hyperedge2node.append(newindexes)
+        
+        # Find Pairdeg Distribution
+        pairdeg_dist = defaultdict(int)
+        tmp = defaultdict(int)
+        for va in range(len(node2hyperedge)):
+            for h in node2hyperedge[va]:
+                for vb in hyperedge2node[h]:
+                    if (va < vb):
+                        key =str(va) + "_" + str(vb)
+                        tmp[key] += 1
+        total = len(tmp.keys())
+        for key in tmp:
+            pairdeg_dist[tmp[key]] += 1
+
+        # Save Pairdeg Dist
+        with open(outputdir + "pairdeg_dist.txt", "w") as f:
+            f.write("pairdeg,value\n")
+            for pairdeg in pairdeg_dist:
+                dist = pairdeg_dist[pairdeg]
+                p = dist / total
+                f.write(str(pairdeg) + "," + str(p) + "\n")
+
+def get_size(inputpath, dataname, algorithmlist, portionlist, split_num, split_idx, recalculate_flag):
+    print("Finding Size...")
+
+    if dataname is not None:
+        _dataset = [dataname]
+    else:
+        _dataset = dataset
+
+    if len(inputpath) > 0:
+        dir_list_all = get_subdirectories([inputpath])
+    else:
+        dir_list_all = []
+        # answer
+        for dataname in _dataset:
+            inputpath = "../../dataset/" + dataname + ".txt"
+            outputdir = "../results/answer_dist/" + dataname + "/"
+            if os.path.isfile(outputdir + "size_dist.txt") is False:
+                dir_list_all.append((inputpath, outputdir))
+        # algorithms
+        for algoname in algorithmlist:
+            for dataname in _dataset:
+                for portion in portionlist:
+                    # repeat
+                    for i in range(1, repeat_time + 1):
+                        dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
+                        if (os.path.isdir(dir_name) is True) and (os.path.isfile(dir_name + "size_dist.txt") is False):
+                            dir_list_all.append(dir_name)
+    split_gap = math.ceil(len(dir_list_all) / split_num)
+    end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
+    dir_list_all = dir_list_all[split_gap * (split_idx) : end_idx]            
+    for dir_name in tqdm(dir_list_all):
+        print(dir_name)
+
+        if type(dir_name) is tuple:
+            inputpath, outputdir = dir_name
+        else:
+            inputpath = dir_name + "sampled_graph.txt"
+            outputdir = dir_name
+
+        flag_sampled_graph = os.path.isfile(inputpath)
+        if flag_sampled_graph is False:
+            print("No sampled_graph in", dir_name)
+            continue
+
+        hyperedge2node = []
+        node2hyperedge = []
+        node2newindex = {}
+        with open(inputpath, "r") as f:
+            for hidx, line in enumerate(f.readlines()):
+                line = line[:-1] # strip enter
+                nodes = line.split(",")
+                newindexes = []
+                for i, node in enumerate(nodes):
+                    if node not in node2newindex:
+                        node2newindex[node] = len(node2newindex)
+                        node2hyperedge.append([])
+                    newindex = node2newindex[node]
+                    newindexes.append(newindex)
+                    node2hyperedge[newindex].append(hidx)
+                hyperedge2node.append(newindexes)
+        
+        total = len(hyperedge2node)
+        size_dist = defaultdict(int)
+        for hidx in range(total):
+            hsize = len(hyperedge2node[hidx])
+            size_dist[hsize] += 1
+
+        # Save Size Dist
+        with open(outputdir + "size_dist.txt", "w") as f:
+            f.write("size,value\n")
+            for size in size_dist:
+                dist = size_dist[size]
+                p = dist / total
+                f.write(str(size) + "," + str(p) + "\n")
+
+def get_dist_from_dir(dir_path):
     if not os.path.isfile(dir_path + "sizewcc.txt"):
         return -1
     size_wcc = pd.read_csv(dir_path + "sizewcc.txt").sort_values(by=['size_wcc'])
@@ -244,14 +517,51 @@ def get_dist_from_dir(dir_path):
     with open(dir_path + "effdiameter.txt", "r") as f:
         effective_diam = f.readline()
         effective_diam = float(effective_diam)
+    
+    if os.path.isfile(dir_path + "singular_value_dist2.txt"):
+        singular_values = defaultdict(list)
+        with open(dir_path + "singular_value_dist2.txt", "r") as f:
+            for line in f.readlines():
+                line = line[:-1]
+                k,v = line.split(" ")
+                k = float(k)
+                v = float(v)
+                singular_values["value"].append(v)
+                singular_values["singular_value"].append(k)
+    else:
+        return -1
+    
+    its = {}
+    _its = pd.read_csv(dir_path + "intersect_dist.txt").sort_values(by=['intersect'])
+    its['value'] = list(_its['value'].cumsum())
+    its['intersect'] = list(_its['intersect'])
+    
+    pairdeg = {}
+    _pairdeg = pd.read_csv(dir_path + "pairdeg_dist.txt").sort_values(by=['pairdeg'])
+    pairdeg['value'] = list(_pairdeg['value'].cumsum())
+    pairdeg['pairdeg'] = list(_pairdeg['pairdeg'])
+    
+    size = {}
+    _size = pd.read_csv(dir_path + "size_dist.txt").sort_values(by=['size'])
+    size['value'] = list(_size['value'].cumsum())
+    size['size'] = list(_size['size'])
+    
+    deg = {}
+    _deg = pd.read_csv(dir_path +  "degree_dist.txt").sort_values(by=['degree'])
+    deg['value'] = list(_deg['value'].cumsum())
+    deg['degree'] = list(_deg['degree'])
 
+    # maybe...singular value is not used"
     dist = {"singular_value" : singular_values, "size_wcc" : size_wcc,
-            "density": density, "global_cc": global_cc, "effective_diameter": effective_diam, "overlapness" : overlapness}
+            "density": density, "global_cc": global_cc, "effective_diameter": effective_diam, "overlapness" : overlapness,
+            "degree": deg, "pairdeg": pairdeg, "size": size, "intersect": its}
+    
     return dist
 
 def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_num, split_idx):
     evallist = ["degree", "intersect", "pairdeg", "size", "Time", 
                 "singular_value", "size_wcc", "global_cc", "density", "overlapness", "effective_diameter"]
+                # "clustering_coef", "pathlength" , "nnz"
 
     answer_dir = "../results/answer_dist/"
 
@@ -274,7 +584,9 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
                         dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/" + str(i) + "/" 
                         if os.path.isdir(dir_name):
                             dir_list_all.append(dir_name)
-                    
+                    # dir_name = "../results/" + algoname + "/" + dataname + "_" + portion + "/"
+                    # if os.path.isdir(dir_name):
+                    #     dir_list_all.append(dir_name)
         split_gap = math.ceil(len(dir_list_all) / split_num)
         end_idx = min(len(dir_list_all), split_gap * (split_idx + 1))
         dir_list_all = dir_list_all[split_gap * (split_idx) : end_idx]               
@@ -307,10 +619,11 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
                 for evalname in evaluation_result.keys():
                     f.write(evalname + " : " + str(evaluation_result[evalname]) + "\n")
 
-            assert "intersect" in evaluation_result, dir_path
+            # assert "intersect" in evaluation_result, dir_path
             for evalname in evallist:
                 if evalname not in evaluation_result:
                     if evalname in ["density", "overlapness", "global_cc", "effective_diameter"]:
+                        # , "nnz"
                         # Difference
                         evaluation_result[evalname] = answer_dist[evalname] - data_dist[evalname]
                         evaluation_result[evalname + "_norm"] = (answer_dist[evalname] - data_dist[evalname]) / answer_dist[evalname]
@@ -342,20 +655,20 @@ def save_all_evaluation(inputpath, dataname, algorithmlist, portionlist, split_n
                         stat = 0.0
                         for k in keys:
                             if k in answer_dict:
-                                assert answer_cumulsum <= answer_dict[k]
+                                assert answer_cumulsum <= answer_dict[k], str(answer_cumulsum)
                                 answer_cumulsum = answer_dict[k]
-                                assert answer_cumulsum <= 1.0
+                                assert answer_cumulsum <= 1.0001, str(answer_cumulsum)
                             if k in data_dict:
-                                assert data_cumulsum <= data_dict[k]
+                                assert data_cumulsum <= data_dict[k], str(data_cumulsum)
                                 data_cumulsum = data_dict[k]
-                                assert data_cumulsum <= 1.0
+                                assert data_cumulsum <= 1.0001, str(data_cumulsum)
                             if stat < math.fabs(answer_cumulsum - data_cumulsum):
                                 stat = math.fabs(answer_cumulsum - data_cumulsum)
                         evaluation_result[evalname] = stat
                         with open(dir_path + "entire_evaluation.txt", "a") as f:
                             f.write(evalname + " : " + str(evaluation_result[evalname]) + "\n")   
             
-            another_sv_eval_result_list = ["singular_value2"] 
+            another_sv_eval_result_list = ["singular_value2"]
             for another_sv_result_path in another_sv_eval_result_list:
                 if os.path.isfile(dir_path + another_sv_result_path + "_eval.txt"):
                     with open(dir_path + another_sv_result_path + "_eval.txt", "r") as rf:
@@ -446,7 +759,22 @@ def aggregate_repeatition(inputpath, dataname, algorithmlist, portionlist, split
             continue
         # print(eval_dict.keys())
         for ename in evallist:
+            # if ename == "Time" and "search" in d:
+            #     # read "time.txt":
+            #     time_path = d + "time.txt"
+            #     assert os.path.isfile(time_path)
+            #     agg_time = 0
+            #     with open(time_path) as f:
+            #         agg_time = float(f.readline())
+            #     assert agg_time != 0
+            #     eval_dict["Time"] = agg_time
+            #     arg_dict["Time"] = 0
+            # else:                
+            #     arg_dict[ename] = np.argmin( [abs(e) for e in eval_dict[ename]] ) + 1
+            #     eval_dict[ename] = np.mean(eval_dict[ename])
+            #arg_dict[ename] = np.argmin( [abs(e) for e in eval_dict[ename]] ) + 1
             eval_dict[ename] = np.mean(eval_dict[ename])
+
 
         with open(d + "agg_entire_evaluation.txt", "w") as r:
             for ename in eval_dict.keys():
@@ -463,7 +791,7 @@ if __name__ == "__main__":
                     "mgs/add_degree", "mgs/exchange_degree", "mgs/remove_degree",
                     "mgs/add_avg", "mgs/exchange_avg", "mgs/remove_avg",
                     "midas_grid_ablation", "maxdegree", "avgdegree", "midas_ns"]
-                    
+
     portionlist = ["0.30", "0.10", "0.20", "0.40", "0.50"]
 
     parser = argparse.ArgumentParser()
@@ -475,6 +803,10 @@ if __name__ == "__main__":
     parser.add_argument('--portion', required=False, type=float)
     parser.add_argument('--diameter', required=False, action='store_true')
     parser.add_argument('--overlapness', required=False, action='store_true')
+    parser.add_argument('--intersect', required=False, action='store_true')
+    parser.add_argument('--pairdeg', required=False, action='store_true')
+    parser.add_argument('--size', required=False, action='store_true')
+    
     parser.add_argument('--get_eval', required=False, action='store_true')
     parser.add_argument('--repeat_agg', required=False, action='store_true')
     parser.add_argument('--recalculate', required=False, action='store_true')
@@ -495,6 +827,12 @@ if __name__ == "__main__":
         get_diameter(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx, args.recalculate)
     if args.overlapness:
         get_overlapness(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx, args.recalculate)
+    if args.intersect:
+        get_intersect(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx, args.recalculate)
+    if args.pairdeg:
+        get_pairdeg(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx, args.recalculate)
+    if args.size:
+        get_size(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx, args.recalculate)
 
     if args.get_eval:
         save_all_evaluation(args.inputpath, args.dataname, algorithmlist, portionlist, args.split_num, args.split_idx)
