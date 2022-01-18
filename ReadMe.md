@@ -33,6 +33,8 @@ In the papaer, we used datasets after removing duplicated hyperedges. We preproc
 You can run all thirteen sampling algorithms including MiDaS by
 
 ```
+make clean
+make
 ./run_sampling.sh
 ```
 
