@@ -64,7 +64,7 @@ def correlation_matrix():
     ymin, ymax = ax.get_ylim()
     ax.text(-3.6, ymin + 0.7, '/ Z-Score', color="black", fontsize = 50)
 
-    plt.yticks(np.arange(0.5, len(names), 1), names, fontsize=50)
+    plt.yticks(np.arange(0.5, len(names), 1), names, fontsize=50, rotation=0)
     ax.set(xticklabels=[])
     ax.set(xlabel=None)
     ax.tick_params(bottom=False)
