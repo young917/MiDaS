@@ -68,7 +68,7 @@ line_style_dict = {
     "mgs/exchange_avg" : (0, (1, 1)),
     
     # ANSWER    
-    'answer': "(0,(5,1))" # 검정색
+    'answer': (0,(5,1)) # 검정색
 }
 marker_dict = {
     "es/global_deg_min_0.0000": "o",
@@ -301,7 +301,8 @@ def plot_dist(dataname, portion, type):
     else:
         print("Error")
         return -1
-    algo_dist = {}
+    portion_str = "%.2f" % (portion)
+    algo2dist = {}
     algo2dist["answer"] = get_dist("../results/answer_dist/" + dataname + "/")
     for algo_name in algorithmlist:
         dir_path = "../results/" + algo_name
@@ -313,17 +314,17 @@ def plot_dist(dataname, portion, type):
             
     for eval_name in evallist:
         if eval_name in ["global_cc", "density", "effective_diameter", "overlapness"]:
-            plt.figure(figsize=(4.4,3.6), dpi=120)
+            plt.figure(figsize=(4.4,3.4), dpi=120)
             # plt.figure(figsize=(4.3, 2.4), dpi=120)
         elif eval_name in ["singular_value", "size_wcc"]:
-            plt.figure(figsize=(3.5,3.6), dpi=120)
+            plt.figure(figsize=(4.4,3.6), dpi=120)
             # plt.figure(figsize=(4.3, 2.7), dpi=120)
         else:
             plt.figure(figsize=(4.3,3.6), dpi=120)
             # plt.figure(figsize=(4.3, 2.7), dpi=120)
 
-        for algo_name in algo_dist.keys():
-            dist = algo_dist[algo_name]
+        for algo_name in algo2dist.keys():
+            dist = algo2dist[algo_name]
             assert dist[eval_name] is not None, dataname + " / " + algo_name + " / " + eval_name
             if algo_name == "answer":
                 if isinstance(dist[eval_name], float):
@@ -334,7 +335,7 @@ def plot_dist(dataname, portion, type):
                     plt.plot(dist[eval_name][eval_name], dist[eval_name]['value'], linewidth=12, linestyle=line_style_dict[algo_name], label=algo_name, alpha=1.0, c=color_dict[algo_name]) #, marker=marker_dict[algo_name], markersize=4)
             else:
                 if isinstance(dist[eval_name], float):
-                    plt.bar(labelalgo[algo_name], dist[eval_name], label=algo_name, alpha=1.0, color=color_dict[algo_name], align='center', width=1)
+                    plt.bar(algo_name, dist[eval_name], label=algo_name, alpha=1.0, color=color_dict[algo_name], align='center', width=1)
                 elif len(dist[eval_name][eval_name]) == 1:
                     plt.scatter(dist[eval_name][eval_name][0], dist[eval_name]['value'][0], s=300, label=algo_name, alpha=1.0, c=color_dict[algo_name])
                 else:
@@ -349,7 +350,7 @@ def plot_dist(dataname, portion, type):
             locmaj = mpl.ticker.LogLocator(numticks=5)
             ax.xaxis.set_major_locator(locmaj)
         if eval_name in ["global_cc", "density", "effective_diameter", "overlapness"]:
-            plt.hlines(y=algo_dist["answer"][eval_name], xmin=xmin-0.02, xmax=xmax+0.02, linewidth=7, linestyle="dashdot", color='black', alpha=1.0)
+            plt.hlines(y=algo2dist["answer"][eval_name], xmin=xmin-0.02, xmax=xmax+0.02, linewidth=7, linestyle="dashdot", color='black', alpha=1.0)
             ymin, ymax = ax.get_ylim()
             plt.ylim(ymin, ymax*1.1)
             ax.set_xticks([])
@@ -376,8 +377,8 @@ def plot_dist(dataname, portion, type):
             savedir = "figures/Baseline/" + dataname + "/%.1f"% (portion) + "/"
             savefname = "figures/Baseline/" + dataname + "/%.1f"% (portion) + "/dist_" + eval_name + ".jpg"
         else:
-            savedir = "figures/Compete/" + "%.1f"% (portion) + "/"
-            savefname = savedir + "dist_" + eval_name + "_" + dataname + ".jpg"
+            savedir = "figures/Compete/"  + dataname + "/%.1f"% (portion) + "/"
+            savefname = savedir + "dist_" + eval_name + ".jpg"
         if os.path.isdir(savedir) is False:
             os.makedirs(savedir)
         plt.savefig(savefname, bbox_inches='tight')

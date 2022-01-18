@@ -121,8 +121,8 @@ def get_dist(dir_path):
     dist = {'degree': deg}
     return dist
 
-def plot_degree_figure(algorithm_dist,dataname, portion, color_dict, line_dict):
-    plt.figure(figsize=(4.4,3.4), dpi=120)
+def plot_degree_figure(algorithm_dist,dataname, portion, color_dict, line_dict, dirname):
+    plt.figure(figsize=(5.5,3.4), dpi=120)
     eval_name = "degree"
     
     for algo in algorithm_dist.keys():
@@ -143,7 +143,7 @@ def plot_degree_figure(algorithm_dist,dataname, portion, color_dict, line_dict):
     plt.tight_layout()
     # plt.legend()
     
-    savedir = "figures/Appendix/degree_dist/%.1f/"% (portion)
+    savedir = "figures/Appendix/" + dirname + "/%.1f/"% (portion)
     if os.path.isdir(savedir) is False: 
         os.makedirs(savedir)
     savename = savedir + dataname + ".jpg"
@@ -186,7 +186,7 @@ def observation(algotype, opt, search_space, dataname, portion):
         if ret == -1:
             continue
         algo_dist[algo_name] = ret
-    plot_degree_figure(algo_dist, dataname, portion, color_dict, line_dict)
+    plot_degree_figure(algo_dist, dataname, portion, color_dict, line_dict, "obs1/" + outputname )
 
 ################### Degree Distribution #####################
 def compare_degree_dist(dataname, portion):
@@ -209,7 +209,7 @@ def compare_degree_dist(dataname, portion):
             print(algo_dir)
             continue
         algo_dist[algo_name] = ret
-    plot_degree_figure(algo_dist, dataname, portion, algo_color, line_dict)
+    plot_degree_figure(algo_dist, dataname, portion, algo_color, line_dict, "degree_dist")
     
 
 ################### According to Portion #####################

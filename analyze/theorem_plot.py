@@ -27,6 +27,7 @@ def analyze(dname):
     for deg in sorted(degree_list):
         avg_deg += deg * degree_dict[deg]
         
+    algonames = ["MIDAS-BASIC", "MIDAS-BASIC-MAX", "MIDAS-BASIC-AVG"]
     for opt_idx, opt in enumerate(["min", "max" ,"avg"]):
         print(dname, opt)
         plt.figure(figsize = (4.2,3), dpi=120)
@@ -61,6 +62,7 @@ def analyze(dname):
         
         plt.xlabel("k", fontsize=20)
         plt.ylabel(r"$ln\omega(e)$", fontsize=20)
+        plt.title(algonames[opt_idx], fontsize=20)
         plt.tight_layout()
         savedir = "figures/Theorem/" + opt + "/"
         if os.path.isdir(savedir) is False:

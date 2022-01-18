@@ -144,12 +144,16 @@ def get_dirpath(dir_path):
         return dir_path
     
     _dir_path = dir_path
-    assert os.path.isfile(dir_path + "/agg_result_arg.txt"), dir_path
-    with open(dir_path + "/agg_result_arg.txt", "r") as f:
-        for line in f.readlines():
-            ename, arg = line[:-1].split(" : ")
-            if ename == "degree":
-                _dir_path = dir_path + "/" + arg + "/"
+    # assert os.path.isfile(dir_path + "/agg_result_arg.txt"), dir_path
+    if os.path.isfile(dir_path + "/agg_result_arg.txt") is False:
+        _dir_path = dir_path + "/1/"
+        print(dir_path)
+    else: 
+        with open(dir_path + "/agg_result_arg.txt", "r") as f:
+            for line in f.readlines():
+                ename, arg = line[:-1].split(" : ")
+                if ename == "degree":
+                    _dir_path = dir_path + "/" + arg + "/"
 
     return _dir_path
 
@@ -277,7 +281,7 @@ def correlation_with_degree(portion):
         X, Y = np.array(xs).reshape(-1, 1), np.array(ys).reshape(-1, 1)
         reg = LinearRegression().fit(X, Y)
         coef, intercept = reg.coef_, reg.intercept_
-        xmin, xmax = min(xs), max(xs)
+        xmin, xmax = min(min(xs), ans_avgdeg), max(max(xs), ans_avgdeg)
         X = np.arange(xmin * 0.7, xmax * 1.2).reshape(-1,1)
         plt.plot(X, reg.predict(X), alpha=0.5, color="black", linewidth=3, linestyle="dashed", zorder=1)
         plt.xlabel('Avg. degree', fontsize=20)
@@ -288,6 +292,7 @@ def correlation_with_degree(portion):
         xmin, xmax = ax.get_xlim()
         ymin, ymax = ax.get_ylim()
         plt.ylim(ymin*0.7, ymax*1.1)
+        ax.text(0.4, 0.95, "corr.=%.2f" % (cor), transform=ax.transAxes, fontsize=18, verticalalignment='top')
         plt.tight_layout()
         savedir = "figures/Correlation/degree_density/%.1f" % (float(portion_str)) +"/"
         if os.path.isdir(savedir) is False:
@@ -322,7 +327,7 @@ def correlation_with_degree(portion):
         X, Y = np.array(xs).reshape(-1, 1), np.array(ys).reshape(-1, 1)
         reg = LinearRegression().fit(X, Y)
         coef, intercept = reg.coef_, reg.intercept_
-        xmin, xmax = min(xs), max(xs)
+        xmin, xmax = min(min(xs), ans_avgdeg), max(max(xs), ans_avgdeg)
         X = np.arange(xmin * 0.7, xmax * 1.2).reshape(-1,1)
         plt.plot(X, reg.predict(X), alpha=0.5, color="black", linewidth=3, linestyle="dashed", zorder=1)
         plt.xlabel('Avg. degree', fontsize=20)
@@ -332,6 +337,7 @@ def correlation_with_degree(portion):
         xmin, xmax = ax.get_xlim()
         ymin, ymax = ax.get_ylim()
         cor = np.corrcoef(np.array(xs), np.array(ys))[0,1]
+        ax.text(0.4, 0.95, "corr.=%.2f" % (cor), transform=ax.transAxes, fontsize=18, verticalalignment='top')
         plt.tight_layout()
         savedir = "figures/Correlation/degree_overlap/%.1f" % (float(portion_str)) +"/"
         if os.path.isdir(savedir) is False:
@@ -433,7 +439,7 @@ def midas_observation1(dataname, portion):
             continue
         algorithm_dist[algo_name] = ret
     
-    plt.figure(figsize=(5.2,3.3), dpi=120)
+    plt.figure(figsize=(5.5,3.3), dpi=120)
     eval_name = "degree"
     for algoname in algorithm_dist.keys():
         color, line, marker= color_dict[algoname], line_dict[algoname], marker_dict[algoname]
@@ -580,6 +586,7 @@ def midas_observation2():
         ymin, ymax = ax.get_ylim()
         plt.ylim(-1, ymax*1.1)
         ax.tick_params(labelcolor='#4B4B4B', labelsize=18)
+        ax.text(0.4, 0.95, "corr.=%.2f" % (cor), transform=ax.transAxes, fontsize=18, verticalalignment='top')
         plt.tight_layout()
         portion = float(portion_str)
         plt.tight_layout()
@@ -668,6 +675,7 @@ def midas_observation3(dataname):
     ymin, ymax = ax.get_ylim()
     plt.ylim(ymin*0.9, ymax*1.1)
     ax.set_xticks([10, 20, 30, 40, 50])
+    ax.text(0.4, 0.95, "corr.=%.2f" % (cor), transform=ax.transAxes, fontsize=18, verticalalignment='top')
     plt.tight_layout()
     savedir = "figures/Observation/alpha_portion/"
     if os.path.isdir(savedir) is False:

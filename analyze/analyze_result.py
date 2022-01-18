@@ -113,7 +113,6 @@ def aggregate_algorithms(portion_str, dataname, type):
     d = d.sort_values(by=["eval avg rank"], ascending=True)
     d.to_csv("./csvs/" + dataname + "/" + portion_str + "_" + type + ".csv", index=False)
 
-
 def aggregate_all_datasets(portion_str, type):
     ######  Normalize ######
     algoname2normevallist = {}
@@ -368,6 +367,128 @@ def aggregate_all_portions(type):
                 line = ",".join([algorithm, algo_opt, eval_opt]+ [ str(evaldict[ename]) for ename in evallist + ["avg"] if ename != "Time"])
                 f.write(line + "\n")
 
+###### ADDITIONAL
+def aggregate_only_by_portion(dataname, type):
+    ######  Normalize ######
+    algoname2normevallist = {}
+    algoname2count = defaultdict(int)    
+    norm_columns = evallist
+    for portion_str in portionlist:
+        d = pd.read_csv("./csvs/" + dataname + "/" + portion_str + "_" + type + "_norm.csv")
+        for i, row in d.iterrows():
+            algoname = row["algorithm"]
+            if row["algo opt"] != "-":
+                algoname += "/" + row["algo opt"]
+            if row["eval opt"] != "-":
+                algoname += "/" + row["eval opt"]
+            if algoname not in algoname2normevallist:
+                algoname2normevallist[algoname] = defaultdict(list)
+            for idx, col in enumerate(norm_columns):
+                algoname2normevallist[algoname][col].append(float(row[col]))
+            algoname2count[algoname] += 1
+
+    for algoname in algoname2normevallist.keys():
+        #print(algoname)
+        #print(algoname2normevallist[algoname]["Time"], sum(algoname2normevallist[algoname]["Time"]) / len(algoname2normevallist[algoname]["Time"]))
+        for col in norm_columns:
+            algoname2normevallist[algoname][col] = np.mean(algoname2normevallist[algoname][col])
+        #print(algoname2normevallist[algoname]["Time"])
+    norm_outputname = "./csvs/" + dataname + "_" + type + "_norm_agg.csv"
+    with open(norm_outputname, "w") as f:
+        f.write("algorithm,algo opt,eval opt,")
+        line = ",".join(norm_columns)
+        f.write(line + "\n")
+
+    for algoname in algoname2normevallist.keys():
+        # print(algoname)
+        tmp = algoname.split("/")
+        if len(tmp) == 3:
+            algorithm, algo_opt, eval_opt = tmp
+        elif len(tmp) == 2:
+            algorithm, algo_opt = tmp
+            eval_opt = "-"
+        elif len(tmp) == 1:
+            algorithm = tmp[0]
+            eval_opt = "-"
+            algo_opt = "-"
+        #count = algoname2count[algoname]
+        assert algoname2count[algoname] == len(portionlist), algoname
+        with open(norm_outputname, "a") as f:
+            line = ",".join([algorithm, algo_opt, eval_opt] + [str(algoname2normevallist[algoname][e]) for e in norm_columns])
+            f.write(line + "\n")
+    
+    d = pd.read_csv(norm_outputname)
+    norm_target_cols = [e for e in evallist if e != 'Time']
+    tmp = d[norm_target_cols]
+    d["avg"] = tmp.mean(axis=1)
+    d = d.sort_values(by=["avg"], ascending=True)
+    d.to_csv(norm_outputname, index=False)
+
+    # Ranking
+    ranking_columns = evallist + ['rank ' + e for e in evallist]
+    algoname2evallist = {}
+    algoname2count = defaultdict(int)
+    for portion_str in portionlist:
+        # print(dataname)
+        d = pd.read_csv("./csvs/" + dataname + "/" + portion_str + "_" + type + ".csv")
+        for i, row in d.iterrows():
+            algoname = row["algorithm"]
+            if row["algo opt"] != "-":
+                algoname += "/" + row["algo opt"]
+            if row["eval opt"] != "-":
+                algoname += "/" + row["eval opt"]
+            if algoname not in algoname2evallist:
+                algoname2evallist[algoname] = defaultdict(list)   
+            # make a list for each feature in order of dataset
+            for idx, col in enumerate(ranking_columns):
+                algoname2evallist[algoname][col].append(math.fabs(float(row[col])))
+
+            algoname2count[algoname] += 1
+
+    for algoname in algoname2evallist.keys():
+        for col in ranking_columns:
+            algoname2evallist[algoname][col + " sd"] = np.std(algoname2evallist[algoname][col])
+            algoname2evallist[algoname][col + " avg"] = np.mean(algoname2evallist[algoname][col])
+    ranking_output_columns = []
+    for ev in ranking_columns:
+        if ev == "Time" or ev == "rank Time":
+            ranking_output_columns.append(ev + " avg")
+        else:
+            ranking_output_columns.append(ev + " avg")
+            ranking_output_columns.append(ev + " sd")
+    ranking_outputname = "./csvs/" + dataname + "_" + type + "_agg.csv"
+    with open(ranking_outputname, "w") as f:
+        line = ",".join(ranking_output_columns)
+        f.write("algorithm,algo opt,eval opt," + line + "\n")
+    
+    for algoname in algoname2evallist.keys():
+        tmp = algoname.split("/")
+        if len(tmp) == 3:
+            algorithm, algo_opt, eval_opt = tmp
+        elif len(tmp) == 2:
+            algorithm, algo_opt = tmp
+            eval_opt = "-"
+        elif len(tmp) == 1:
+            algorithm = tmp[0]
+            algo_opt = "-"
+            eval_opt = "-"
+            
+        #count == algoname2count[algoname]
+        assert algoname2count[algoname] == len(portionlist), algoname + " " + str(algoname2count[algoname])
+        
+        with open(ranking_outputname, "a") as f:
+            line = ",".join([algorithm, algo_opt, eval_opt] + [str(algoname2evallist[algoname][e]) for e in ranking_output_columns])
+            f.write(line + "\n")
+    
+    d = pd.read_csv(ranking_outputname)
+    ranking_target_cols = ['rank ' + e + ' avg' for e in evallist if e != 'Time']
+    # ranking_target_cols = ['rank degree avg', 'rank size avg', 'rank intersect avg', 'rank pairdeg avg', 'rank size_wcc avg', 'rank global_cc_norm avg', 'rank singular_value avg' , 'rank density_norm avg', 'rank overlapness_norm avg', 'rank effective_diameter_norm avg']
+    
+    ranks = d[ranking_target_cols]
+    d['aggregate rank'] = ranks.mean(axis=1)
+    d = d.sort_values(by=["aggregate rank"], ascending=True)
+    d.to_csv(ranking_outputname, index=False)
+                
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--type', required=True, default='baseline', type=str, help='baselines/compete/ablation')
@@ -376,6 +497,8 @@ if __name__ == "__main__":
     for portion_str in portionlist:
         for dataname in dataset:
             aggregate_algorithms(portion_str, dataname, args.type)
-        aggregate_all_datasets(portion_str, args.type)  
+        aggregate_all_datasets(portion_str, args.type)
     aggregate_all_portions(args.type)
 
+    for dataname in dataset:
+        aggregate_only_by_portion(dataname, args.type)
