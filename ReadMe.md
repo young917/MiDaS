@@ -139,6 +139,7 @@ In the *analyze* directory,
 * ablation_study.py
 * theorem_plot.py
 
+You can see how to run these codes in `analyze/run.sh`
 - - -
 
 ## Environment
