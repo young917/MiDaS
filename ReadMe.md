@@ -1,6 +1,7 @@
 # MiDaS: Representative Sampling from Real-world Hypergraphs
 
 We provide source code for (1) sampling hypergraphs, (2) evaluating the quality of sub-hypergraph and (3) reproducing all figures in the paper: [MiDaS: Representative Sampling from Real-world Hypergraphs](https://arxiv.org/abs/2202.01587), Minyoung Choe, Jaemin Yoo, Geon lee, Woonsung Baek, U Kang and Kijung Shin, WWW 2022.
+(Additionally, we extend this work as [MiDaS-B: Back-in-Time Sampling from Real-world Hypergraphs](https://github.com/young917/MiDaS-B)
 
 (1) **Sampling Hypergraphs**
 
