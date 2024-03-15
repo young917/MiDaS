@@ -23,6 +23,7 @@ algorithmlist=["ns/global_deg_0.0000", "ns/global_deg_1.0000",
                "rw/rw_c_1", "ff/ff_c_0.51_0.20",
                "es/global_deg_min_0.0000", "tihs",
                "midas", "midas_grid",
+               "hrw/noback", "hrw/skip",
                "mgs/add_degree", "mgs/add_avg", "mgs/exchange_degree", 
                "mgs/exchange_avg","mgs/remove_degree", "mgs/remove_avg"]
 
@@ -35,6 +36,9 @@ algorithm2labeling = {
     "tihs": "TIHS",
     "midas": "MiDaS",
     "midas_grid": "MiDaS-Grid",
+
+    "hrw/noback": "HRW-NB",
+    "hrw/skip": "HRW-SK",
     
     "mgs/add_degree": "MGS-DA",
     "mgs/add_avg": "MGS-AA",
