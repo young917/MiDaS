@@ -18,6 +18,9 @@ do
             ./bin/Sampling --algorithm ff --dataname $data --inputpath ../dataset/ --algo_opt ff_c --repeat $repeat_index --target_portion $portion
             ./bin/Sampling --algorithm ns --dataname $data --inputpath ../dataset/ --algo_opt global_deg --alpha 0 --repeat $repeat_index --target_portion $portion
             ./bin/Sampling --algorithm ns --dataname $data --inputpath ../dataset/ --algo_opt global_deg --alpha 1 --repeat $repeat_index --target_portion $portion
+            # Hybrid Random Walk Sampling
+            ./bin/Sampling --algorithm hrw --dataname $data --inputpath ../dataset/ --algo_opt noback --repeat $repeat_index --target_portion $portion
+            ./bin/Sampling --algorithm hrw --dataname $data --inputpath ../dataset/ --algo_opt skip --repeat $repeat_index --target_portion $portion
             # Metropolis Graph Sampling
             ./bin/Sampling --repeat $repeat_index --eval_opt avg --algorithm mgs --dataname $data --inputpath ../dataset/ --algo_opt remove --target_portion $portion
             ./bin/Sampling --repeat $repeat_index --eval_opt avg --algorithm mgs --dataname $data --inputpath ../dataset/ --algo_opt add --target_portion $portion
