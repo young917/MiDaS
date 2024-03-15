@@ -16,6 +16,7 @@ baseline_algorithmlist=["ns/global_deg_0.0000", "ns/global_deg_1.0000",
 compete_algorithmlist=["ns/global_deg_0.0000", "ns/global_deg_1.0000",
                "rw/rw_c_1", "ff/ff_c_0.51_0.20",
                "es/global_deg_min_0.0000", "tihs", 
+               "hrw/noback", "hrw/skip",
                "mgs/add_degree", "mgs/add_avg", "mgs/exchange_degree", "mgs/exchange_avg",
                "mgs/remove_degree", "mgs/remove_avg",
                "midas"]
@@ -40,6 +41,9 @@ color_dict = {
     "rw/rw_c_1": "#ff7f00", # 주황색
     "ff/ff_c_0.51_0.20": "#FFC81E", # 노랑색
 
+    "hrw/noback": "#87a330",
+    "hrw/skip" : "#4f772d",
+  
     "mgs/add_degree": "#CD853F", # 베이지색
     "mgs/add_avg" : "#D7A35D",
     "mgs/remove_degree" : "#D2691E", # 황토색
@@ -59,6 +63,9 @@ line_style_dict = {
     "tihs": "solid",
     "rw/rw_c_1": "solid",
     "ff/ff_c_0.51_0.20": "solid",
+  
+    "hrw/noback": "solid",
+    "hrw/skip" : "solid",
     
     "mgs/add_degree": "solid",
     "mgs/add_avg" : (0, (1, 1)),
@@ -79,6 +86,9 @@ marker_dict = {
     "tihs": "o",
     "rw/rw_c_1": "o",
     "ff/ff_c_0.51_0.20": "o",
+
+    "hrw/noback": "o",
+    "hrw/skip" : "o",
 
     "mgs/add_degree": "o",
     "mgs/add_avg" : "o",
