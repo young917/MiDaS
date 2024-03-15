@@ -170,6 +170,7 @@ if __name__ == "__main__":
     sampled_algo_list =  ["midas", "ns/global_deg_1.0000", 
                     "es/global_deg_min_0.0000", "ns/global_deg_0.0000",
                     "tihs", "rw/rw_c_1", "ff/ff_c_0.51_0.20",
+                    "hrw/noback", "hrw/skip",
                     "mgs/add_degree", "mgs/exchange_degree", "mgs/remove_degree",
                     "mgs/add_avg", "mgs/exchange_avg", "mgs/remove_avg",
                     "midas_grid_ablation", "maxdegree", "avgdegree", "midas_ns"]
