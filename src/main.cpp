@@ -5,6 +5,7 @@
 #include "algorithmES.hpp"
 #include "algorithmFF.hpp"
 #include "algorithmRW.hpp"
+#include "algorithmHRW.hpp"
 #include "algorithmMGS.hpp"
 #include "algorithmTIHS.hpp"
 #include "evaluation.hpp"
@@ -75,6 +76,8 @@ int main(int argc, char* argv[]){
     // Flags
     bool printing = false;
     bool testing = false;
+    bool noeval_flag = false;
+    bool recalculate_flag = false;
     // Test
     int num_tries = 1000;
     int repeat = -1;
@@ -101,12 +104,14 @@ int main(int argc, char* argv[]){
         // run option
         else if(input.compare("--printing") == 0) printing = true;
         else if(input.compare("--testing") == 0) testing = true; // When developing algorithm!
+        else if(input.compare("--noeval") == 0) noeval_flag = true; // When developing algorithm!
+        else if(input.compare("--recalculate") == 0) recalculate_flag = true;
         // test for dynamic computation
         else if (input.compare("--num_tries") == 0) num_tries = atoi(argv[++i]);
         else if (input.compare("--repeat") == 0) repeat = atoi(argv[++i]);
     }
 
-    HyperGraph *graph = new HyperGraph(inputpath, dataname);
+    HyperGraph *graph = new HyperGraph(inputpath, dataname, eval_opt);
     
     string outputdir = "";
     string portion_str = "";
@@ -142,7 +147,7 @@ int main(int argc, char* argv[]){
             args[1] = args[1] + "_" + alpha_str;    
         }
         outputdir = make_directory(args);
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -159,7 +164,7 @@ int main(int argc, char* argv[]){
         alpha_str = stream.str();
         args[1] = args[1] + "_" + alpha_str;
         outputdir = make_directory(args);
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -180,7 +185,7 @@ int main(int argc, char* argv[]){
 
         args[1] = args[1] + "_" + p_str + "_" + q_str;
         outputdir = make_directory(args);
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -189,11 +194,11 @@ int main(int argc, char* argv[]){
         free(algo);
         algo = NULL;
     }
-    else if(algorithm.compare("rw") == 0){
+    else if(algorithm.compare(0, 2, "rw") == 0){
         cout << "Run RW" << endl;
         args[1] = args[1] + "_" + to_string(maxlength);
         outputdir = make_directory(args);
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -202,10 +207,22 @@ int main(int argc, char* argv[]){
         free(algo);
         algo = NULL;
     }
+    else if(algorithm.compare(0, 3, "hrw") == 0){
+        cout << "Run HRW" << endl;
+        outputdir = make_directory(args);
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
+            cout << "Already Exist" << endl;
+            return 0;
+        }
+        Algorithm_HRW *algo = new Algorithm_HRW(outputdir, algo_opt, eval_opt, graph); 
+        final = algo->run(target_portion);
+        free(algo);
+        algo = NULL;
+    }
     else if(algorithm.compare("tihs") == 0){
         cout << "Run TIHS" << endl;
         outputdir = make_directory(args);
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -218,7 +235,7 @@ int main(int argc, char* argv[]){
         args[1] = args[1] + "_" + eval_opt;
         outputdir = make_directory(args);
         cout << outputdir + "sampled_graph.txt" << endl;
-        if (file_exist(outputdir + "sampled_graph.txt")){
+        if ((!recalculate_flag) && (file_exist(outputdir + "sampled_graph.txt"))){
             cout << "Already Exist" << endl;
             return 0;
         }
@@ -306,7 +323,7 @@ int main(int argc, char* argv[]){
         cout << "Calculate phi dist." << endl;
         cal_phi_dist(graph);
     }
-    else if (!testing){
+    else if ((!testing) && (!noeval_flag)){
         // save intermedidate result
         int target_size = int(floor(graph->number_of_hedges * target_portion));
         if (final->setsize == target_size){
