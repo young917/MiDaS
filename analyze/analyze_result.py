@@ -10,7 +10,7 @@ import argparse
 #################### Default  #######################################################
 
 baseline_algorithmlist=["es/global_deg_min_0.0000", "tihs", "ns/global_deg_1.0000", "rw/rw_c_1", "ff/ff_c_0.51_0.20", "ns/global_deg_0.0000"]
-compete_algorithmlist = ["es/global_deg_min_0.0000",  "tihs", "ff/ff_c_0.51_0.20", "ns/global_deg_0.0000", "ns/global_deg_1.0000", "mgs/add_degree", "mgs/add_avg", "mgs/exchange_degree", "mgs/exchange_avg", "mgs/remove_degree", "mgs/remove_avg", "rw/rw_c_1", "midas"]
+compete_algorithmlist = ["es/global_deg_min_0.0000",  "tihs", "ff/ff_c_0.51_0.20", "ns/global_deg_0.0000", "ns/global_deg_1.0000", "hrw/noback", "hrw/skip",  "mgs/add_degree", "mgs/add_avg", "mgs/exchange_degree", "mgs/exchange_avg", "mgs/remove_degree", "mgs/remove_avg", "rw/rw_c_1", "midas"]
 ablation_algorithmlist=["midas_grid_ablation", "avgdegree", "maxdegree", "midas_ns"]
 
 portionlist = ["0.10", "0.20", "0.30", "0.40", "0.50"]
