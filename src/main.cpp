@@ -111,7 +111,7 @@ int main(int argc, char* argv[]){
         else if (input.compare("--repeat") == 0) repeat = atoi(argv[++i]);
     }
 
-    HyperGraph *graph = new HyperGraph(inputpath, dataname, eval_opt);
+    HyperGraph *graph = new HyperGraph(inputpath, dataname);
     
     string outputdir = "";
     string portion_str = "";
